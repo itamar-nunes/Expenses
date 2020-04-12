@@ -1,4 +1,4 @@
-# expenses
+# Expenses control
 
 A new Flutter project.
 
