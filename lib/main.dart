@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:expenses/components/chart.dart';
 import 'package:expenses/components/transaction_form.dart';
 import 'package:expenses/components/transaction_list.dart';
 import 'package:flutter/material.dart';
@@ -14,26 +15,22 @@ class ExpensesApp extends StatelessWidget {
     return MaterialApp(
       home: MyHomePage(),
       theme: ThemeData(
-        primarySwatch: Colors.purple,
-        accentColor: Colors.amber,
-        fontFamily: 'Quicksand',
-        textTheme: ThemeData.light().textTheme.copyWith(
-          title: TextStyle(
-            fontFamily: 'OpenSans',
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          )
-        ),
-        appBarTheme: AppBarTheme(
+          primarySwatch: Colors.purple,
+          accentColor: Colors.amber,
+          fontFamily: 'Quicksand',
           textTheme: ThemeData.light().textTheme.copyWith(
-            title: TextStyle(
-              fontFamily: 'OpenSans',
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            )
-          ) 
-        )
-      ),
+                  title: TextStyle(
+                fontFamily: 'OpenSans',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              )),
+          appBarTheme: AppBarTheme(
+              textTheme: ThemeData.light().textTheme.copyWith(
+                      title: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  )))),
     );
   }
 }
@@ -44,56 +41,64 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _transactions = [
+  final List<Transaction> _transactions = [
     Transaction(
-      id: 't1',
-      title: 'Novo tenis de corrida',
-      value: 155.65,
-      date: DateTime.now(),
+      id: 't0',
+      title: 'Conta Antiga',
+      value: 999.99,
+      date: DateTime.now().subtract(Duration(days: 100)),
     ),
     Transaction(
       id: 't2',
       title: 'Corrida',
-      value: 888.99,
-      date: DateTime.now(),
+      value: 100.00,
+      date: DateTime.now().subtract(Duration(days: 5)),
     ),
     Transaction(
       id: 't3',
       title: 'Tenis',
-      value: 777.65,
-      date: DateTime.now(),
+      value: 10.00,
+      date: DateTime.now().subtract(Duration(days: 1)),
     ),
     Transaction(
       id: 't4',
       title: 'Sapato',
-      value: 66.66,
-      date: DateTime.now(),
+      value: 10.66,
+      date: DateTime.now().subtract(Duration(days: 3)),
     ),
     Transaction(
       id: 't5',
       title: 'Sandalia',
-      value: 66.66,
-      date: DateTime.now(),
+      value: 2.00,
+      date: DateTime.now().subtract(Duration(days: 3)),
     ),
-    Transaction(
-      id: 't6',
-      title: 'Velho chinelo de andar',
-      value: 999.99,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't7',
-      title: 'Andar manso',
-      value: 1000.00,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't7',
-      title: 'Velho carro',
-      value: 1.0,
-      date: DateTime.now(),
-    )
+    // Transaction(
+    //   id: 't6',
+    //   title: 'Velho chinelo de andar',
+    //   value: 999.99,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: 't7',
+    //   title: 'Andar manso',
+    //   value: 1000.00,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: 't7',
+    //   title: 'Velho carro',
+    //   value: 1.0,
+    //   date: DateTime.now(),
+    // )
   ];
+
+  List<Transaction> get _recentTransactions {
+    return _transactions.where((tr) {
+      return tr.date.isAfter(DateTime.now().subtract(
+        Duration(days: 7),
+      ));
+    }).toList();
+  }
 
   _addTransaction(String title, double value) {
     final newTransaction = Transaction(
@@ -135,13 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              child: Card(
-                color: Colors.blue,
-                child: Text('Gráfico'),
-                elevation: 5,
-              ),
-            ),
+            Chart(_recentTransactions),
             TransactionList(_transactions),
           ],
         ),
