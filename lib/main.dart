@@ -46,58 +46,58 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-    final List<Transaction> _transactions = [];
+    // final List<Transaction> _transactions = [];
 
-  // final List<Transaction> _transactions = [
-  //   Transaction(
-  //     id: 't0',
-  //     title: 'Tenis novo de corrida',
-  //     value: 999.99,
-  //     date: DateTime.now().subtract(Duration(days: 100)),
-  //   ),
-  //   Transaction(
-  //     id: 't2',
-  //     title: 'Chinelo velho de andar',
-  //     value: 100.00,
-  //     date: DateTime.now().subtract(Duration(days: 5)),
-  //   ),
-  //   Transaction(
-  //     id: 't3',
-  //     title: 'Alicate de unha',
-  //     value: 10.00,
-  //     date: DateTime.now().subtract(Duration(days: 1)),
-  //   ),
-  //   Transaction(
-  //     id: 't4',
-  //     title: 'Torquesa de dente',
-  //     value: 10.66,
-  //     date: DateTime.now().subtract(Duration(days: 3)),
-  //   ),
-  //   Transaction(
-  //     id: 't5',
-  //     title: 'Caixa preta',
-  //     value: 2.00,
-  //     date: DateTime.now().subtract(Duration(days: 3)),
-  //   ),
-  //   Transaction(
-  //     id: 't6',
-  //     title: 'Velho chinelo de andar',
-  //     value: 99.99,
-  //     date: DateTime.now(),
-  //   ),
-  //   Transaction(
-  //     id: 't7',
-  //     title: 'Andar manso',
-  //     value: 100.00,
-  //     date: DateTime.now(),
-  //   ),
-  //   Transaction(
-  //     id: 't7',
-  //     title: 'Velho carro',
-  //     value: 1.0,
-  //     date: DateTime.now(),
-  //   )
-  // ];
+  final List<Transaction> _transactions = [
+    Transaction(
+      id: 't0',
+      title: 'Tenis novo de corrida',
+      value: 999.99,
+      date: DateTime.now().subtract(Duration(days: 100)),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'Chinelo velho de andar',
+      value: 100.00,
+      date: DateTime.now().subtract(Duration(days: 5)),
+    ),
+    Transaction(
+      id: 't3',
+      title: 'Alicate de unha',
+      value: 10.00,
+      date: DateTime.now().subtract(Duration(days: 1)),
+    ),
+    Transaction(
+      id: 't4',
+      title: 'Torquesa de dente',
+      value: 10.66,
+      date: DateTime.now().subtract(Duration(days: 3)),
+    ),
+    Transaction(
+      id: 't5',
+      title: 'Caixa preta',
+      value: 2.00,
+      date: DateTime.now().subtract(Duration(days: 3)),
+    ),
+    Transaction(
+      id: 't6',
+      title: 'Velho chinelo de andar',
+      value: 99.99,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't7',
+      title: 'Andar manso',
+      value: 100.00,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't7',
+      title: 'Velho carro',
+      value: 1.0,
+      date: DateTime.now(),
+    )
+  ];
 
   List<Transaction> get _recentTransactions {
     return _transactions.where((tr) {
@@ -120,6 +120,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     Navigator.of(context).pop();
+  }
+
+  _removeTransaction(String id) {
+    setState(() {
+      _transactions.removeWhere((tr) => tr.id == id);
+    });
   }
 
   _openTransactionFormModal(BuildContext context) {
@@ -148,7 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Chart(_recentTransactions),
-            TransactionList(_transactions),
+            TransactionList(_transactions, _removeTransaction),
           ],
         ),
       ),
