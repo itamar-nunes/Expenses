@@ -45,63 +45,70 @@ class _TransactionFormState extends State<TransactionForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: <Widget>[
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Título',
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: 10,
+            left: 10,
+            right: 10,
+            bottom: 10 + MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: Column(
+            children: <Widget>[
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Título',
+                ),
+                controller: _titleController,
+                onSubmitted: (_) => _submitForm(),
               ),
-              controller: _titleController,
-              onSubmitted: (_) => _submitForm(),
-            ),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Valor (R\$)',
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Valor (R\$)',
+                ),
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                controller: _valueController,
+                onSubmitted: (_) => _submitForm(),
               ),
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-              controller: _valueController,
-              onSubmitted: (_) => _submitForm(),
-            ),
-            Container(
-              height: 70,
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Text(
-                      _selectedDate == null
-                          ? 'Nenhuma data selecionada!'
-                          : 'Data Selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}',
-                    ),
-                  ),
-                  FlatButton(
-                    textColor: Theme.of(context).primaryColor,
-                    child: Text(
-                      'Selecionar Data',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w900,
+              Container(
+                height: 70,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Text(
+                        _selectedDate == null
+                            ? 'Nenhuma data selecionada!'
+                            : 'Data Selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}',
                       ),
                     ),
-                    onPressed: _showDatePicker,
-                  )
-                ],
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                RaisedButton(
-                  child: Text('Nova Transação'),
-                  color: Theme.of(context).primaryColor,
-                  textColor: Theme.of(context).textTheme.button.color,
-                  onPressed: _submitForm,
+                    FlatButton(
+                      textColor: Theme.of(context).primaryColor,
+                      child: Text(
+                        'Selecionar Data',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                      onPressed: _showDatePicker,
+                    )
+                  ],
                 ),
-              ],
-            )
-          ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  RaisedButton(
+                    child: Text('Nova Transação'),
+                    color: Theme.of(context).primaryColor,
+                    textColor: Theme.of(context).textTheme.button.color,
+                    onPressed: _submitForm,
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
